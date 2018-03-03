@@ -1,14 +1,14 @@
 %estado_inicial
-%representacion: reloj1, tiempo que le queda en la parte superior, reloj2, tiempo que le queda en la parte superior al reloj2
+%representacion: tiempo que le queda en la parte superior, tiempo que le queda en la parte superior al reloj2
 
-inicial(estado(reloj1, 7, reloj2, 11)).
+inicial(estado(7, 11)).
 
 %estados_finales
 
-objetivo(estado(reloj1, 3, reloj2, _)). %tienen 3 minutos en el lado superior
-objetivo(estado(reloj1, _, reloj2, 3)).
-objetivo(estado(reloj1, 4, reloj2, _)). %tienen 3 minutos en el lado inferior
-objetivo(estado(reloj1, _, reloj2, 8)).
+objetivo(estado(3, _)). %tienen 3 minutos en el lado superior
+objetivo(estado(_, 3)).
+objetivo(estado(4, _)). %tienen 3 minutos en el lado inferior
+objetivo(estado(_, 8)).
 
 %operaciones
 
@@ -17,20 +17,20 @@ objetivo(estado(reloj1, _, reloj2, 8)).
 %tengan arena con la funcion vacio. Si el reloj no tiene arena la unica operacion 
 %posible es girar el reloj.
 
-movimiento(estado(reloj1, X, reloj2, Y),
-		estado(reloj1, Z, reloj2, W),
+movimiento(estado(X, Y),
+		estado(Z, W),
 		restarTiempo) :- \+vacio(X), \+vacio(Y), Z is X - 1, W is Y - 1.
 
 %al girar un reloj u otro, el tiempo restante en el contrario se mantiene
 %esta operacion no consume tiempo
 
-movimiento(estado(reloj1, Y, reloj2, X),
-	  estado(reloj1, Z, reloj2, X),
-	  girarReloj(reloj1)):- Z is 7 - Y.
+movimiento(estado(Y, X),
+	  estado(Z, X),
+	  girarReloj1):- Z is 7 - Y.
 
-movimiento(estado(reloj1, X, reloj2, Y), 
-	  estado(reloj1, X, reloj2, Z),
-	  girarReloj(reloj2)):- Z is 11 - Y.
+movimiento(estado(X, Y), 
+	  estado(X, Z),
+	  girarReloj2):- Z is 11 - Y.
 
 
 %esta regla comprueba que el valor de X no sea 0, o menor para mayor seguridad, o sea, que el reloj no 
