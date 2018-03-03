@@ -1,4 +1,5 @@
 %estado_inicial
+%representacion: reloj1, tiempo que le queda en la parte superior, reloj2, tiempo que le queda en la parte superior al reloj2
 
 inicial(estado(reloj1, 7, reloj2, 11)).
 
@@ -13,15 +14,17 @@ objetivo(estado(reloj1, _, reloj2, 8)).
 
 %puesto que el tiempo pasa igual para ambos relojes, no necesitaremos más que 
 %una función que les reste el tiempo a los dos a la vez, siempre comprobando que 
-%no se queden sin arena, en ese caso se detienen ambos relojes
+%tengan arena con la funcion vacio. Si el reloj no tiene arena la unica operacion 
+%posible es girar el reloj.
 
 movimiento(estado(reloj1, X, reloj2, Y),
 		estado(reloj1, Z, reloj2, W),
 		restarTiempo) :- \+vacio(X), \+vacio(Y), Z is X - 1, W is Y - 1.
 
-%al girar un reloj u otro el tiempo restante en el contrario se mantiene
+%al girar un reloj u otro, el tiempo restante en el contrario se mantiene
+%esta operacion no consume tiempo
 
-movimiento(estado(reloj1, Y, reloj2, X), 
+movimiento(estado(reloj1, Y, reloj2, X),
 	  estado(reloj1, Z, reloj2, X),
 	  girarReloj(reloj1)):- Z is 7 - Y.
 
@@ -30,9 +33,8 @@ movimiento(estado(reloj1, X, reloj2, Y),
 	  girarReloj(reloj2)):- Z is 11 - Y.
 
 
-%esta regla comprueba que el valor de X no sea 0, o menor, o sea, que el reloj no 
-%se haya quedado sin arena. Si es así aplicamos el corte para detener la búsqueda de 
-%más soluciones por esta rama.
+%esta regla comprueba que el valor de X no sea 0, o menor para mayor seguridad, o sea, que el reloj no 
+%se haya quedado sin arena.
 
 vacio(X) :- (X =< 0).
 
