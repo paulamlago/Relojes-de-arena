@@ -1,5 +1,5 @@
 %estado_inicial
-%representacion: tiempo que le queda en la parte superior, tiempo que le queda en la parte superior al reloj2
+%representacion: tiempo que le queda en la parte superior al primer reloj, tiempo que le queda en la parte superior al reloj2
 
 inicial(estado(7, 11)).
 
