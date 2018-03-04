@@ -1,14 +1,14 @@
 %estado_inicial
 %representacion: tiempo que le queda en la parte superior al primer reloj, tiempo que le queda en la parte superior al reloj2
 
-inicial(estado(7, 11)).
+inicial(estado(7.0, 11.0)).
 
 %estados_finales
 
-objetivo(estado(3, _)). %tienen 3 minutos en el lado superior
-objetivo(estado(_, 3)).
-objetivo(estado(4, _)). %tienen 3 minutos en el lado inferior
-objetivo(estado(_, 8)).
+objetivo(estado(3.0, _)). %tienen 3 minutos en el lado superior
+objetivo(estado(_, 3.0)).
+objetivo(estado(4.0, _)). %tienen 3 minutos en el lado inferior
+objetivo(estado(_, 8.0)).
 
 %operaciones
 
@@ -19,19 +19,19 @@ objetivo(estado(_, 8)).
 
 movimiento(estado(X, Y),
 		estado(Z, W),
-		restarTiempo) :- \+vacio(X), \+vacio(Y), Z is X - 1, W is Y - 1.
+		restarTiempo) :- Z is X - (1 / 60), W is Y - (1 / 60), \+vacio(Z), \+vacio(W).
+
 
 %al girar un reloj u otro, el tiempo restante en el contrario se mantiene
 %esta operacion no consume tiempo
 
 movimiento(estado(Y, X),
 	  estado(Z, X),
-	  girarReloj1):- Z is 7 - Y.
+	  girarReloj1):- Z is 7.0 - Y.
 
 movimiento(estado(X, Y), 
 	  estado(X, Z),
-	  girarReloj2):- Z is 11 - Y.
-
+	  girarReloj2):- Z is 11.0 - Y.
 
 %esta regla comprueba que el valor de X no sea 0, o menor para mayor seguridad, o sea, que el reloj no 
 %se haya quedado sin arena.
